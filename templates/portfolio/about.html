@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block start %}
+<h2 class="text-center my-3 py-3">About Me</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="https://source.unsplash.com/500x500/?portrait" class="img-fluid" alt="portrait">
+        </div>
+        <div class="col-md-6">
+          <h3>Hello, I'm [Gautam singh]!</h3>
+          <p>I'm a [web developer] based in [Bhopal]. I have a passion for [Your Interests/Hobbies] and enjoy spending my free time [Your Activities].</p>
+          <p>I specialize in [Your Expertise] and have [Your Years of Experience] years of experience working in [Your Industry]. I'm dedicated to delivering high-quality work and always strive to exceed my clients' expectations.</p>
+          <p>If you're interested in working with me, please don't hesitate to reach out!</p>
+          <a href="{% url 'contact' %}" class="btn btn-primary">Contact Me</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

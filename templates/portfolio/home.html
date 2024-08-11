@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block start %}
+<!-- main content start  -->
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Welcome to my protfolio</strong> You should check my profile
+    and resume
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="contaner">
+    <div class="bd-example">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active" aria-label="Slide 1"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="1" aria-label="Slide 2"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="2" aria-label="Slide 3"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    {% comment %} <img src="{% static 'media/static/BeFunky-collage (1).png' %}" class="d-block w-100 custom-height" alt="..." /> {% endcomment %}
+                    <img src="media/static/BeFunky-collage (1).png" class="d-block w-100 h-100"
+                    alt="..." />
+
+
+                        
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="btn btn-lg btn-primary bg-info">Gautam singh</div>
+                        <!-- <h5><span class="text-light">Shubham Kumar Patel</span></h5> -->
+                        <h3 class="typing"></h3>
+                        <a class="btn btn-primary bg-dark" href="{% url 'project' %}" role="button">View all
+                            projects</a>
+                            <a class="btn btn-primary bg-dark" href="{% url 'bloghome' %}" role="button">View blog</a>
+                        <a class="btn btn-primary bg-dark" href="{% url 'resume' %}" role="button">View resume</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="media/static/BeFunky-collage (1).png" class="d-block w-100 h-100"
+                        alt="..." />
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="btn btn-lg btn-primary bg-info">Gautam Singh</div>
+
+                        <h3 class="typing2"></h3>
+                        <a class="btn btn-primary bg-dark" href="{% url 'project' %}" role="button">View all
+                            projects</a>
+                            <a class="btn btn-primary bg-dark" href="{% url 'project' %}" role="button">View blog</a>
+                        <a class="btn btn-primary bg-dark" href="{% url 'resume' %}" role="button">View resume</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    {% comment %} <img src="https://source.unsplash.com/1900x500/?university,mountain" class="d-block w-100 h-100"
+                        alt="..." /> {% endcomment %}
+                        <img src="media\static\BeFunky-collage.png" class="d-block w-100 h-100"
+                        alt="..." />
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="btn btn-lg btn-primary bg-info">Gautam singh</div>
+
+                        <h3 class="typing3"></h3>
+                        <a class="btn btn-primary bg-dark" href="{% url 'project' %}" role="button">View all
+                            projects</a>
+                        <a class="btn btn-primary bg-dark" href="{% url 'project' %}" role="button">View blog</a>
+                        <a class="btn btn-primary bg-dark" href="{% url 'resume' %}" role="button">View resume</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <h2 class="text-center my-3 py-3">Me at a Glance</h2>
+    <div class="conatainer d-flex justify-content-center">
+        {% for glance in me_at_glance %}
+        <div class="row mx-3">
+            <div class="card" style="width: 18rem">
+                {% comment %} <img src="media/static/BeFunky-collage (1).png" class="card-img-top" alt="..." />  {% endcomment %}
+                <iframe width="287" height="155" src="{{glance.video_link}}" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{glance.title}}</h5>
+                    <p class="card-text">
+                        {{glance.description | truncatechars:80}}
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <a href="{{glance.channel_link}}" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+    <hr>
+    <h2 class="text-center my-3 py-3">Recommended Project</h2>
+    <div class="container">
+        <div class="row justify-content-around">
+            {% for project in projects %}
+            <div class="col-md-4 my-3">
+                <div class="card mb-4 p-2 h-100 w-100">
+                    <div class="d-flex justify-content-center"
+                        style="height: 150px; overflow: hidden; object-fit: contain;">
+                        <img src="media/{{ project.image }}" class="card-img-top h-100 w-auto"
+                            alt="{{ project.project_image.url }}">
+                    </div>
+                    <div class="container ">
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text">{{ project.description|truncatechars:30}}</p>
+                            <p class="card-text"><strong>Technology:</strong> {{ project.technology }}</p>
+                            <div class="d-flex justify-content-center">
+    
+                                <a href="{% url 'project_detail' project.slug %}" class="btn btn-primary">View Project</a>
+                            </div>
+    
+    
+                        </div>
+                    </div>
+                    <div class="card-footer" style="position: absolute; bottom: 0; width: 95%;">
+                        <small class="text-muted">Created on: {{ project.created_date }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+    
+       <style>
+          .col-md-3
+          {
+          display: inline-block;
+          margin-left:-4px;
+          }
+          .carousel-indicators .active {
+          background-color: blue;
+            }
+          .col-md-3 img{
+          width:100%;
+          height:auto;
+          }
+           body .carousel-indicator li{
+          background-color: blue;
+          } 
+          body .carousel-indicators{
+          bottom: 0;
+          }
+           body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+          background-color: blue;
+          } 
+           body .no-padding{
+           padding-left: 0;
+           padding-right: 0;
+           }
+
+        
+  </style> 
+ 
+  
+
+
+<div class="container">
+
+    <!-- left and right controls for the slide -->
+     
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+
+    <!-- certificates card -->
+    <article class="col-md-12">
+        <header class="mt-5"></header>
+        <!-- BLOG CARDS -->
+        <h2>Certificates</h2>
+        <div class="cards-1 section-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="#"> <img class="img"
+                                        src="media/{{certificate1}}">
+                                    <div class="card-caption"> Quisque a bibendum magna </div>
+                                </a>
+                                <div class="ripple-cont"></div>
+                            </div>
+                            <div class="table">
+                                <!-- <h6 class="category text-info">Cinema</h6> -->
+                                <p class="card-description"> Lorem ipsum dolor sit amet, consectetur adipis cingelit.
+                                    Etiam lacinia elit et placerat finibus. Praesent justo metus, pharetra vel nibh sit
+                                    amet, tincidunt posuere nulla. Vivamus odio antement, feugiat eget nisi sit amet,
+                                    scelerisque dignissim velit antement. </p>
+                                    <div class="ftr">
+                                        <div class="author">
+                                            <a href="#"> <img src="http://adamthemes.com/demo/code/cards/images/avatar3.png"
+                                                    alt="..." class="avatar img-raised"> <span>{{name}}</span> </a>
+                                        </div>
+                                        <div class="stats"> <i class="fa fa-clock-o"></i> 15 min </div>
+                                    </div>
+                            </div>
+                            
+                        </div>
+                        <div class="card">
+                            <div class="table table-info">
+                                <h5 class="category-social">
+                                    <i class="fa fa-twitter"></i> Bug fix
+                                </h5>
+                                <h4 class="card-caption">
+                                    <a href="#">"Vivamus odio ante, feugiat eget nisi sit amet, dignissim velit. Sus
+                                        pendisse ultricies varius."</a>
+                                </h4>
+                                <div class="ftr">
+                                    <div class="author">
+                                        <a href="#"> <img src="http://adamthemes.com/demo/code/cards/images/avatar3.png"
+                                                alt="" class="avatar img-raised"> <span>{{name}}</span> </a>
+                                    </div>
+                                    <div class="stats"> <i class="fa fa-heart"></i> 365 &nbsp; <i
+                                            class="fa fa-share-alt"></i> 120 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="table">
+                                <h6 class="category text-danger">
+                                    <!-- <i class="fa fa-globe "></i> World -->
+                                </h6>
+                                <h4 class="card-caption">
+                                    <a href="#">Vivamus odio ante, feugiat eget nisi sit amet, dignissim velit.</a>
+                                </h4>
+                                <div class="ftr">
+                                    <div class="author">
+                                        <a href="#"> <img src="http://adamthemes.com/demo/code/cards/images/avatar3.png"
+                                                alt="" class="avatar img-raised"> <span>{{name}}</span>
+                                            <div class="ripple-cont">
+                                                <div class="ripple ripple-on ripple-out"
+                                                    style="left: 574px; top: 364px; background-color: rgb(60, 72, 88); transform: scale(11.875);">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="stats"> <i class="fa fa-heart"></i> 342 &nbsp; <i
+                                            class="fa fa-comment"></i> 45 </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="#"> <img class="img"
+                                        src="media/{{certificate2}}"> </a>
+                                <div class="ripple-cont"></div>
+                            </div>
+                            <div class="table">
+                                <!-- <h6 class="category text-success"><i class="fa fa-university"></i> Law</h6> -->
+                                <h4 class="card-caption">
+                                    <a href="#">Vivamus odio ante, feugiat eget nisi sit amet, dignissim velit</a>
+                                </h4>
+                                <p class="card-description"> Lorem ipsum dolor sit amet, consectetur adipis cingelit.
+                                    Etiam lacinia elit et placerat finibus.</p>
+                                <div class="ftr">
+                                    <div class="author">
+                                        <a href="#"> <img src="http://adamthemes.com/demo/code/cards/images/avatar3.png"
+                                                alt="..." class="avatar img-raised"> <span>{{name}}</span> </a>
+                                    </div>
+                                    <div class="stats"> <i class="fa fa-clock-o"></i> 10 min </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="#"> <img class="img"
+                                        src="media/{{certificate3}}"> </a>
+                                <div class="ripple-cont"></div>
+                            </div>
+                            <div class="table">
+                                <h6 class="category text-warning">
+                                    <!-- <i class="fa fa-soundcloud"></i> Music -->
+                                </h6>
+                                <h4 class="card-caption">
+                                    <a href="#">Vivamus odio ante, feugiat eget nisi sit amet, dignissim velit</a>
+                                </h4>
+                                <div class="ftr">
+                                    <div class="author">
+                                        <a href="#"> <img src="http://adamthemes.com/demo/code/cards/images/avatar3.png"
+                                                alt="..." class="avatar img-raised"> <span>{{name}}</span> </a>
+                                    </div>
+                                    <div class="stats"> <i class="fa fa-clock-o"></i> 15 min </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="table table-danger">
+                                <h5 class="category-social">
+                                    <i class="fa fa-newspaper-o"></i> News
+                                </h5>
+                                <h4 class="card-caption">
+                                    <a href="#">"Consectetur odio feugiat"</a>
+                                </h4>
+                                <p class="card-description"> Lorem ipsum dolor sit amet, consectetur adipis cingelit.
+                                    Etiam lacinia elit et placerat finibus.</p>
+                                <div class="ftr text-center"> <a href="#" class="btn btn-white btn-round">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+
+    <h2 class="text-center mt-3 pt-3">About me</h2>
+    <div class="contianer d-flex justify-content-center ">
+        <div class='card_yellow' style="width: 60%;">
+            <div class='card_left'>
+                <img src="media/{{ about.image }}" alt="" style="height: 100%; width: auto;">
+            </div>
+            <div class='card_right'>
+                <h1>{{about.name}}</h1>
+                <div class='card_right__details'>
+                    <ul>
+                        <li>{{about.dob}}</li>
+                        <li>111 min</li>
+                        <li>Action</li>
+                    </ul>
+                    <div class='card_right__rating'>
+                        <div class='card_right_rating_stars'>
+                            <fieldset class='rating'>
+                                <input id='star10' class="far fa-star text-white" name='rating' type='radio' value='10'>
+                                <label class='full' for='star10' title='10 stars'></label>
+                                <input id='star9half' class="far fa-star text-white" name='rating' type='radio' value='9 and a half'>
+                                <label class='half' for='star9half' title='9.5 stars'></label>
+                                <input id='star9' class="far fa-star text-white" name='rating' type='radio' value='9'>
+                                <label class='full' for='star9' title='9 stars'></label>
+                                <input id='star8half' class="far fa-star text-white" name='rating' type='radio' value='8 and a half'>
+                                <label class='half' for='star8half' title='8.5 stars'></label>
+                                <input id='star8' class="far fa-star text-white" name='rating' type='radio' value='8'>
+                                <label class='full' for='star8' title='8 stars'></label>
+                                <input id='star7half' class="far fa-star text-white" name='rating' type='radio' value='7 and a half'>
+                                <label class='half' for='star7half' title='7.5 stars'></label>
+                                <input id='star7' class="far fa-star text-white" name='rating' type='radio' value='7'>
+                                <label class='full' for='star7' title='7 stars'></label>
+                                <input id='star6half' class="far fa-star text-white" name='rating' type='radio' value='6 and a half'>
+                                <label class='half' for='star6half' title='6.5 stars'></label>
+                                <input id='star6' class="far fa-star text-white" name='rating' type='radio' value='6'>
+                                <label class='full' for='star6' title='6 star'></label>
+                                <input id='star5half' class="far fa-star text-white" name='rating' type='radio' value='5 and a half'>
+                                <label class='half' for='star5half' title='5.5 stars'></label>
+                                <input id='star5' class="far fa-star text-white" name='rating' type='radio' value='5'>
+                                <label class='full' for='star5' title='5 stars'></label>
+                                <input id='star4half' class="far fa-star text-white" name='rating' type='radio' value='4 and a half'>
+                                <label class='half' for='star4half' title='4.5 stars'></label>
+                                <input id='star4' class="far fa-star text-white" name='rating' type='radio' value='4'>
+                                <label class='full' for='star4' title='4 stars'></label>
+                                <input id='star3half' class="far fa-star text-white" name='rating' type='radio' value='3 and a half'>
+                                <label class='half' for='star3half' title='3.5 stars'></label>
+                                <input id='star3' class="far fa-star text-white" name='rating' type='radio' value='3'>
+                                <label class='full' for='star3' title='3 stars'></label>
+                                <input id='star2half' class="far fa-star text-white" name='rating' type='radio' value='2 and a half'>
+                                <label class='half' for='star2half' title='2.5 stars'></label>
+                                <input id='star2' class="far fa-star text-white" name='rating' type='radio' value='2'>
+                                <label class='full' for='star2' title='2 stars'></label>
+                                <input id='star1half' class="far fa-star text-white" name='rating' type='radio' value='1 and a half'>
+                                <label class='half' for='star1half' title='1.5 stars'></label>
+                                <input id='star1' class="far fa-star text-white" name='rating' type='radio' value='1'>
+                                <label class='full' for='star1' title='1 star'></label>
+                                <input id='starhalf' class="far fa-star text-white" name='rating' type='radio' value='half'>
+                                <label class='half' for='starhalf' title='0.5 stars'></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class='card_right__review'>
+                        <p>The lead character, called 'The Bride,' was a member <br /> of the Deadly Viper Assassination
+                            Squad, led by her <br /> lover 'Bill.' Upon realizing she was pregnant with Bill's<br />
+                            child, 'The Bride' decided to escape her life as a killer.<br /> She fled to Texas, met a
+                            young man, who, on the day<br /> of their wedding rehearsal was gunned down by....</p>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+<!-- main content end  -->
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.0/typed.min.js"
+    integrity="sha512-zKaK6G2LZC5YZTX0vKmD7xOwd1zrEEMal4zlTf5Ved/A1RrnW+qt8pWDfo7oz+xeChECS/P9dv6EDwwPwelFfQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+    integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+    integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+    crossorigin="anonymous"></script>
+
+    <style>
+        .typing, .typing2, .typing3 {
+          color: white !important; /* Force the color to white */
+        }
+      </style>
+      
+      <script>
+        var typed1 = new Typed(".typing",{
+          strings:["","Web Designer","Web Developer","Graphic Designer","YouTuber"],
+          typeSpeed:100,
+          backSpeed:60,
+          loop:true
+        });
+        
+        var typed2 = new Typed(".typing2",{
+          strings:["","Web Designer","Web Developer","Graphic Designer","YouTuber"],
+          typeSpeed:100,
+          backSpeed:60,
+          loop:true
+        });
+        
+        var typed3 = new Typed(".typing3",{
+          strings:["","Web Designer","Web Developer","Graphic Designer","YouTuber"],
+          typeSpeed:100,
+          backSpeed:60,
+          loop:true
+        });
+      </script>
+{% endblock %}

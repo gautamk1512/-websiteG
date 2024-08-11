@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block start %}
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+      >
+        <span>{{message}}</span><button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    
+<div class="container my-3">
+  <h3 class="text-center">Contact Me</h3>
+  <form method="post" action ="/contact" >
+  {% csrf_token %}
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" name="name"aria-describedby="name">
+    
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control"  id="email" name="email"  aria-describedby="email">
+      <div id="emailhelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="phone" class="form-control" id="phone" name="phone">
+    </div>
+    <div class="mb-3">
+      <label for="content" class="form-label">Describe your issue?</label>
+      {% comment %} <input type="text" class="form-control" id="content"> {% endcomment %}
+      <textarea name="content" class="form-control" id="content"   cols="30" rows="8"></textarea>
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  </div>
+{% endblock %}
